@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if student is defined %}
+        <h2>
+            Etudiant numéro : {{ student.numEtud }}
+        </h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Numéro étudiant</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr scope="row">
+                    <td>
+                        {{ student.numEtud }}
+                    </td>
+                    <td>
+                        {{ student.firstname }}
+                    </td>
+                    <td>
+                        {{ student.lastname }}
+                    </td>
+                    <td>
+                        <a class="btn btn-danger"
+                           type="button"
+                           href="{{ path('delete_student', {id : student.id}) }}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a class="btn btn-info"
+                           type="button"
+                           href="{{ path('edit_student', {id : student.id}) }}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

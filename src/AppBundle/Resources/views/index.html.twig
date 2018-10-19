@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <nav class="container">
+        <a type="button" class="btn btn-active" href="{{ path('add_student') }}">Ajouter un étudiant</a>
+    </nav>
+{% endblock %}
+{% block body %}
+    <h1>
+        Etudiants enregistrés
+    </h1>
+    {% if students is defined and students is not empty%}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Numéro étudiant</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr scope="row">
+                <td>
+                    {{ student.numEtud }}
+                </td>
+                <td>
+                    {{ student.firstname }}
+                </td>
+                <td>
+                    {{ student.lastname }}
+                </td>
+                <td>
+                    <a class="btn btn-danger"
+                       type="button"
+                       href="{{ path('delete_student', {id : student.id}) }}">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a class="btn btn-info"
+                       type="button"
+                       href="{{ path('edit_student', {id : student.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="btn btn-info"
+                       type="button"
+                       href="{{ path('show_student', {id : student.id}) }}">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="p-1 text-center btn-info w-100">
+        Il n'y a pas d'étudiants enregistrés
+    </div>
+    {% endif %}
+    <h1>
+        Départements enregistrés
+    </h1>
+    {% if departments is defined and departments is not empty%}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Places maximums</th>
+                <th scope="col">Etudiants associés</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for department in departments %}
+                <tr scope="row">
+                    <td>
+                        {{ department.name }}
+                    </td>
+                    <td>
+                        {{ department.capacity }}
+                    </td>
+                    <td>
+                        {% for student in department.student %}
+                            {{ student.numEtud }} {{ student.lastname }} {{ student.firstname }} <br>
+                        {% endfor %}
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class=" p-1 text-center btn-info w-100 " >
+            <p>Veuillez lancer les datafixtures dans le terminal grâce à la commande :
+                <br>
+                <strong>"php bin/console doctrine:fixtures:load --append
+                    "</strong></p>
+
+        </div>
+    {% endif %}
+
+{% endblock %}
