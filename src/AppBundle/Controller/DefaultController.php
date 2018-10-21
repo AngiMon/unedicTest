@@ -23,9 +23,9 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $students = $em->getRepository(Student::class)
-                       ->findAll();
+            ->findAll();
         $departments = $em->getRepository(Department::class)
-                          ->findAll();
+            ->findAll();
         return $this->render('@App/index.html.twig',
             array(
                 'students' => $students,
@@ -131,14 +131,4 @@ class DefaultController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
-    /**
-     * @Route("/department/{name}", name="api")
-     */
-    public function apiAction(Department $department, Request $request)
-    {
-        $data = $this->get('jms_serializer')->serialize($department, 'json');
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
 }
